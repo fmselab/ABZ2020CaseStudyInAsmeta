@@ -1,0 +1,135 @@
+//1) Normal Cruise Control
+
+scenario  CarSystem005scenario001
+load ../CarSystem005.asm
+
+//Engine start
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM1;
+step
+//Driver accelerates
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+step
+//Activating cruise control
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+step
+//Maintaing speed
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check desiredSpeed = 400;
+check sCSLeve_Previous = FORWARD_SCS;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+step
+//Pushing cruise control lever upwards (5°)
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check desiredSpeed = 400;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := UPWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+step
+//Keeping cruise control lever upward (5°)
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 410;
+check desiredSpeed = 410;
+check sCSLeve_Previous = UPWARD5_SCS;
+set sCSLever := UPWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 410;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+//Pushing cruise control lever further upwards (7°)
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 420;
+check desiredSpeed = 420;
+check sCSLeve_Previous = UPWARD5_SCS;
+set sCSLever := UPWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 420;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+//Keeping cruise control lever upward (7°)
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 500;
+check desiredSpeed = 500;
+check sCSLeve_Previous = UPWARD7_SCS;
+set sCSLever := UPWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 430;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+set passed2Sec := false;
+set passed1Sec := true;
+step
+//Keeping cruise control lever upward (7°)
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 500;
+check desiredSpeed = 500;
+check sCSLeve_Previous = UPWARD7_SCS;
+set sCSLever := UPWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 440;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+//Releasing cruise control lever
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 600;
+check desiredSpeed = 600;
+check sCSLeve_Previous = UPWARD7_SCS;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 450;
+set cruiseControlMode := CCM1;
+set accelerationUserHighCruiseControl := false;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check desiredSpeed = 600;
+check sCSLeve_Previous = BACKWARD_SCS;
+step

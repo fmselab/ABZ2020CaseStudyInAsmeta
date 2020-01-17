@@ -1,0 +1,74 @@
+//Turn left
+
+scenario CarSystem001scenario001
+
+load ../CarSystem001.asm
+
+//Check static functions
+
+begin checkStaticFunctions
+	check marketCode = EU;
+end //checkStaticFunctions
+
+//Check init state
+
+begin checkInitState
+	//Pitman arm Up Down is in NEUTRAL position
+	check pitmanArmUpDown = NEUTRAL_UD;  
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;	
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn = false;
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = false;
+	//Direction blinkers are off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	//Key is not inserted
+	check keyState = NOKEYINSERTED; 
+	//Tail lamp is fixed
+	check tailLampLeftStatus = FIX;
+	check tailLampRightStatus = FIX;	 
+end // checkInitState
+	
+	step
+
+//Turn left
+begin pitmanArmTurnLeft	
+	//Turn the key ON
+	set keyState := KEYINIGNITIONONPOSITION;
+	
+	step
+	
+	//Turn left
+	set pitmanArmUpDown := DOWNWARD7;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+end //pitmanArmTurnLeft	
+
+	step
+	
+	step
+	
+	step
+	
+	//Move pitman arm to neutral position
+	set pitmanArmUpDown := NEUTRAL_UD; 
+	
+	step
+	
+	//Interrupt turn right
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	
+	
+	

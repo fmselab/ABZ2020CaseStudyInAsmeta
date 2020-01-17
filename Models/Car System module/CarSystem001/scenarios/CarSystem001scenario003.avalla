@@ -1,0 +1,93 @@
+//Hazard Warning ON
+//Hazard warning is on the pitmanArm is moved to UPWARD5 (tip-blinking right),
+//This command is ignored (it is not inserted in the buffer)
+//Hazard warning is on the pitmanArm is moved to UPWARD7 (turn right),
+//The command is saved into buffer and executed after hazard warning switches off
+
+scenario CarSystem001scenario003
+
+load ../CarSystem001.asm
+
+//Check static functions
+	execblock CarSystem001scenario001:checkStaticFunctions;
+	
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+	
+	step
+	
+//Hazard Warning Switch ON
+	execblock CarSystem001scenario002:runHazardWarning;
+
+	step
+	
+//set pitmanArmUpDown to position tip-blinking right
+	set pitmanArmUpDown := UPWARD5;
+	
+	step
+	
+	//The command is ignored - it is not saved into the buffer
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking 
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is blinking 
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	//Key is on
+	check keyState = KEYINIGNITIONONPOSITION;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn;
+	check hazardWarningSwitchOn_Start = false;
+
+	
+//Set pitmanArmUpDown to position turn right
+	set pitmanArmUpDown := UPWARD7;
+	
+	step
+	
+//The command is saved into the buffer
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = UPWARD7;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is blinking
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn;
+	check hazardWarningSwitchOn_Start = false;
+	
+//Switch off the hazard warning
+	set hazardWarningSwitchOn := false;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = UPWARD7;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = false;
+	
+	step
+	
+//The command into the buffer is executed
+	check pitmanArmUpDown_RunnReq = UPWARD7;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	
+	
+	
+	

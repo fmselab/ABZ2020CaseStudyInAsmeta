@@ -1,0 +1,54 @@
+//Turn left - USA car
+//Before running set "function marketCode = USA" into the model
+
+scenario scenario007CarSystem001
+
+load ../CarSystem001.asm
+
+//Check static functions
+
+begin checkStaticFunctions
+	check marketCode = USA;
+end //checkStaticFunctions
+
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+	
+	step
+	
+	//Turn the key ON
+	set keyState := KEYINIGNITIONONPOSITION;
+	
+	step
+	
+	//Turn left
+	set pitmanArmUpDown := DOWNWARD7;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Tail lamp is blinking
+	check tailLampLeftStatus = BLINK;
+	check tailLampLeftBlinkValue = 50;
+	
+	step
+	
+	//Move pitman arm to neutral position
+	set pitmanArmUpDown := NEUTRAL_UD; 
+	
+	step
+	
+	//Interrupt turn right
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Tail lamp is blinking
+	check tailLampLeftStatus = FIX;
+	check tailLampLeftBlinkValue = 0;
+	
+	
+	

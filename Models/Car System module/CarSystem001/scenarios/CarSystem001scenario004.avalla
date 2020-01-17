@@ -1,0 +1,74 @@
+//Tip blinking left
+
+scenario CarSystem001scenario004
+
+load ../CarSystem001.asm
+
+//Check static functions
+	execblock CarSystem001scenario001:checkStaticFunctions;
+	
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+	
+	step
+	
+	//Turn the key ON
+	set keyState := KEYINIGNITIONONPOSITION;
+	
+	step
+	
+	//Key is ON
+	check keyState = KEYINIGNITIONONPOSITION;
+	
+	//Turn left
+	set pitmanArmUpDown := DOWNWARD5;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD5;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+	set pitmanArmUpDown := NEUTRAL_UD;
+		
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD5;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+	//Three flashing cycles are not completed	
+	set threeBlinkingCycle := false;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD5;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	
+	//Three blinking cycles are completed
+	set threeBlinkingCycle := true;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	

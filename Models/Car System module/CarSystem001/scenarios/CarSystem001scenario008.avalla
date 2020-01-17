@@ -1,0 +1,79 @@
+//Turn left
+//Hazard warning on while turn left is running
+
+scenario scenario008CarSystem001
+
+load ../CarSystem001.asm
+
+//Check static functions
+	execblock CarSystem001scenario001:checkStaticFunctions;
+	
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+		
+	step
+	
+//Turn left
+	execblock CarSystem001scenario001:pitmanArmTurnLeft;
+	
+	step
+	
+	step
+	
+//Hazard warning ON
+	set hazardWarningSwitchOn := true;	
+	
+	step
+
+//Interrupt turn left	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;	
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	// Hazard Warning is active
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = true;
+	
+	step
+//Start hazard warning and save turn left into the buffer because the pitmanArm still in DOWNWARD7 position	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;	
+	check pitmanArmUpDown_Buff = DOWNWARD7;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is blinking
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	// Hazard Warning is running
+	check hazardWarningSwitchOn_Runn;
+	check hazardWarningSwitchOn_Start = false;
+	
+	step
+	
+	step
+	
+//Switch off the hazard warning
+	set hazardWarningSwitchOn := false;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;	
+	check pitmanArmUpDown_Buff = DOWNWARD7;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = false;
+	
+	step
+
+//Run request into the buffer	
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	

@@ -1,0 +1,96 @@
+//Tip blinking left
+//Turn right while three flashing cycles of tip blinking left are not finished
+
+scenario scenario006CarSystem001
+
+load ../CarSystem001.asm
+
+//Check static functions
+	execblock CarSystem001scenario001:checkStaticFunctions;
+	
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+	
+	step
+	
+	//Turn the key ON
+	set keyState := KEYINIGNITIONONPOSITION;
+	
+	step
+	
+	//Key is ON
+	check keyState = KEYINIGNITIONONPOSITION;
+	
+//Turn left
+	set pitmanArmUpDown := DOWNWARD5;
+	
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD5;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+	set pitmanArmUpDown := NEUTRAL_UD;
+		
+	step
+	
+	check pitmanArmUpDown_RunnReq = DOWNWARD5;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+//New command while a different command is running
+	set pitmanArmUpDown := UPWARD7; 
+	set threeBlinkingCycle := false;
+	
+	step
+	
+//Save new command into the buffer and interrupt the current command
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = UPWARD7;
+	//Left is blinking
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+	step
+	
+//Start the command into the buffer
+	check pitmanArmUpDown_RunnReq = UPWARD7;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is ON
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	
+	step
+	
+//Turn the key OFF
+	set keyState := KEYINSERTED;
+	
+	step
+
+//Interrupt blinking	
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	
+	 

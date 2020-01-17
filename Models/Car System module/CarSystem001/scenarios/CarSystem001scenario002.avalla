@@ -1,0 +1,83 @@
+//Hazard Warning ON
+
+scenario CarSystem001scenario002
+
+load ../CarSystem001.asm
+
+//Check static functions
+	execblock CarSystem001scenario001:checkStaticFunctions;
+
+//Check init state
+	execblock CarSystem001scenario001:checkInitState;
+
+	step
+
+//Hazard Warning Switch ON
+begin runHazardWarning	
+
+	set hazardWarningSwitchOn := false;	
+	set pitmanArmUpDown := NEUTRAL_UD;
+	//Turn the key ON
+	set keyState := KEYINIGNITIONONPOSITION;
+	
+	step
+	
+	//Key is ON
+	check keyState = KEYINIGNITIONONPOSITION;
+	
+	//Switch hazard warning on
+	set hazardWarningSwitchOn := true;
+	
+	step
+	
+	// Hazard Warning is active
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = true;
+	
+	step
+	
+	//Left is blinking
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE11;
+	//Right is blinking
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE11;
+	// Hazard Warning is running
+	check hazardWarningSwitchOn_Runn;
+	check hazardWarningSwitchOn_Start = false;
+
+end //runHazardWarning
+	
+	step
+	
+	//Take off the key -> pulse ratio changes
+	set keyState := NOKEYINSERTED;
+	
+	step
+	
+	//Left is blinking - pulse is changed
+	check blinkLeft = 100;
+	check blinkLeftPulseRatio = PULSE12;
+	//Right is blinking - pulse is changed
+	check blinkRight = 100;
+	check blinkRightPulseRatio = PULSE12;
+	//Key is off
+	check keyState = NOKEYINSERTED;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn;
+	check hazardWarningSwitchOn_Start = false;
+	
+	//Switch off the hazard warning
+	set hazardWarningSwitchOn := false;
+	
+	step
+	
+	//Left is off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	//Right is off
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = false;

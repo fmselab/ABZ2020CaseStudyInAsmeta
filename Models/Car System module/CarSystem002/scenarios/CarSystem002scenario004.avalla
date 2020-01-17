@@ -1,0 +1,168 @@
+//4) Normal light, daytime light, ambient light, night
+ 
+scenario CarSystem002scenario004
+
+load ../CarSystem002.asm  
+
+
+
+//All off, day
+
+//Check static checks
+
+begin checkStaticFunctions
+	check marketCode = EU;
+	check armoredVehicle = false;
+	check daytimeLight = true;
+	check ambientLighting = true;
+end //checkStaticFunctions
+
+//Check init state
+
+begin checkInitState
+	check pitmanArmUpDown = NEUTRAL_UD;
+	check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+	check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	// Hazard Warning is not active
+	check hazardWarningSwitchOn = false;
+	check hazardWarningSwitchOn_Runn = false;
+	check hazardWarningSwitchOn_Start = false;
+	//Direction blinkers are off
+	check blinkLeft = 0;
+	check blinkLeftPulseRatio = NOPULSE;
+	check blinkRight = 0;
+	check blinkRightPulseRatio = NOPULSE;
+	//Key is not inserted	
+	check keyState_Previous = NOKEYINSERTED;
+	//Tail lamp is fixed
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 0;
+	check tailLampLeftStatus = FIX;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 0;
+	check tailLampRightStatus = FIX;
+	//Light rotary switch
+	check lightRotarySwitchPrevious = OFF;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 0;
+	check lowBeamRight = 0;
+	check not parkingLightON ;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;
+	check brakeLampCenterStatus = FIX;
+end // checkInitState
+
+//Ignition to ON position -> light on due to daytime light //--> THIS STEP IS NECESSARY, IT IS NOT POSSIBLE THAT THE KEY GOES FROM NO INSERTED TO ON
+	set lightRotarySwitch := OFF;
+	//Insert the key
+	set keyState := KEYINIGNITIONONPOSITION;
+	set hazardWarningSwitchOn := false;
+	set darknessModeSwitchOn := false;
+	set brightnessSensor := 100;
+	set pitmanArmUpDown := NEUTRAL_UD;
+	set reverseGear := false;
+	set brakePedal := 0;
+	
+	step
+
+//Light switch to AUTO -> lights remain on
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 100;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;
+	set lightRotarySwitch := AUTO;
+	set passed3Sec := false;
+	set currentSpeed := 200;
+	set steeringAngle := 0;
+	set passed5Sec := false;
+	
+	step
+	
+//Turning engine off -> light remain on (ambient light)
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 100;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;
+	set keyState := KEYINSERTED;
+	set passed30Sec := false;
+	
+	step
+
+//Quick sunraise -> no effect on lights, as exterior brightness is only an activation criterion	
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 100;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;
+	set brightnessSensor := 300;
+	
+	step
+	
+//30 seconds since last trigger -> lights off
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 100;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;
+	set passed30Sec := true;
+	
+	step
+	
+	check tailLampLeftBlinkValue = 0;
+	check tailLampLeftFixValue = 0;
+	check tailLampRightBlinkValue  = 0;
+	check tailLampRightFixValue  = 0;
+	//Cornering lights off
+	check corneringLightRight = 0;
+	check corneringLightLeft = 0;
+	//Low beam headlight
+	check lowBeamLeft = 0;
+	check lowBeamRight = 0;
+	check reverseLight = 0;
+	check brakeLampLeft = 0;
+	check brakeLampRight = 0;
+	check brakeLampCenter = 0;	
+	

@@ -1,0 +1,143 @@
+//5) Speed Limit
+
+scenario  CarSystem006scenario001
+load ../CarSystem006.asm 
+
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 800;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := HEAD;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 800;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = HEAD;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 800;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 900;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 900;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 100;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = true;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 1200;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 0;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 900;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 800;
+check speedLimitActive = true;
+check desiredSpeed = 800;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 900;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 800;
+check sCSLeve_Previous = BACKWARD_SCS;
+check orangeLed = false;
+check speedLimitTempDeacti = false;
+step

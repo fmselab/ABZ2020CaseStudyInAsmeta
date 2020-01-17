@@ -1,0 +1,97 @@
+//4) Normal Cruise Control with overtaking
+
+scenario  CarSystem006scenario004
+load ../CarSystem006.asm  
+
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check speedLimitActive = false;
+check desiredSpeed = 400;
+check sCSLeve_Previous = FORWARD_SCS;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check speedLimitActive = false;
+check desiredSpeed = 400;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check speedLimitActive = false;
+check desiredSpeed = 400;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check speedLimitActive = false;
+check desiredSpeed = 400;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 400;
+set cruiseControlMode := CCM1;
+set trafficSignDetectionOn := false;
+set accelerationUserHighCruiseControl := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 400;
+check speedLimitActive = false;
+check desiredSpeed = 400;
+check sCSLeve_Previous = BACKWARD_SCS;
+step
